@@ -19,9 +19,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #0f172a;
-  /* Slate 950 */
-  color: white;
+  background-color: var(--color-background, #0f172a);
+  color: var(--color-text, white);
 }
 
 @media (prefers-color-scheme: light) {
@@ -38,4 +37,37 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Theme-aware utility classes */
+.bg-theme-surface {
+  background-color: var(--color-surface);
+}
+
+.bg-theme-surface-light {
+  background-color: var(--color-surfaceLight);
+}
+
+.bg-theme-background {
+  background-color: var(--color-background);
+}
+
+.text-theme {
+  color: var(--color-text);
+}
+
+.text-theme-secondary {
+  color: var(--color-textSecondary);
+}
+
+.border-theme {
+  border-color: var(--color-border);
+}
+
+.bg-theme-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-theme-primary-hover:hover {
+  background-color: var(--color-primaryHover);
 }

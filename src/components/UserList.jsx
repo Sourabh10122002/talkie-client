@@ -89,10 +89,10 @@ const UserList = () => {
 
 
     return (
-        <div className="w-64 bg-slate-900 border-l border-slate-800 hidden lg:flex flex-col shadow-xl z-10">
-            <div className="p-6 border-b border-slate-800 font-bold text-slate-100 flex items-center justify-between">
+        <div className="w-64 bg-theme-surface border-l border-theme hidden lg:flex flex-col shadow-xl z-10">
+            <div className="h-16 px-4 border-b border-theme font-bold text-theme flex items-center justify-between">
                 <div className="flex items-center">
-                    <Users size={18} className="mr-2 text-violet-400" />
+                    <Users size={18} className="mr-2 text-theme-background" />
                     <span>Users</span>
                 </div>
                 <div className="flex items-center space-x-2">

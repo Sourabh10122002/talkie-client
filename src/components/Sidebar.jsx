@@ -3,11 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useChat } from '../context/ChatContext';
 import {
-    Hash, Plus, LogOut, MessageSquare,
-    UserPlus, Lock, Users, Settings, X, MoreVertical, Trash2
+    Hash, Plus, MessageSquare,
+    UserPlus, Lock, Users, X, MoreVertical, Trash2,
+    Settings
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
+import Logo from '../assets/Logo';
 
 const Sidebar = ({ isOpen, onClose }) => {
 
@@ -183,16 +185,16 @@ const Sidebar = ({ isOpen, onClose }) => {
 
     return (
         <div className={`
-            fixed inset-y-0 left-0 z-30 w-4/5 max-w-xs bg-slate-900 text-slate-100 flex flex-col h-full border-r border-slate-800 shadow-xl transition-transform duration-300 ease-in-out
+            fixed inset-y-0 left-0 z-30 w-4/5 max-w-xs bg-theme-surface text-theme flex flex-col h-full border-r border-theme shadow-xl transition-transform duration-300 ease-in-out
             lg:relative lg:translate-x-0 lg:w-64
             ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
 
             {/* Header */}
-            <div className="p-6 border-b border-slate-800 flex items-center justify-between relative">
+            <div className="h-16 px-4 border-b border-theme flex items-center justify-between relative">
                 <div className="flex items-center space-x-3 overflow-hidden">
-                    <div className="bg-violet-600 p-2 rounded-lg shadow-lg shadow-violet-500/20 flex-shrink-0">
-                        <MessageSquare size={20} className="text-white" />
+                    <div className="flex-shrink-0 text-theme-primary">
+                        <Logo className="h-8 w-8" />
                     </div>
                     <span className="font-bold text-lg tracking-tight truncate">
                         {currentGroup ? currentGroup.name : 'Select Server'}
@@ -203,7 +205,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 {isAdmin && (
                     <button
                         onClick={() => setIsHeaderMenuOpen(!isHeaderMenuOpen)}
-                        className="p-1 hover:bg-slate-800 rounded text-slate-400 hover:text-white transition-colors flex-shrink-0 ml-2"
+                        className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex-shrink-0 ml-2"
                     >
                         <MoreVertical size={20} />
                     </button>
@@ -216,13 +218,13 @@ const Sidebar = ({ isOpen, onClose }) => {
                             className="fixed inset-0 z-40"
                             onClick={() => setIsHeaderMenuOpen(false)}
                         ></div>
-                        <div className="absolute top-16 right-4 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-50 py-1">
+                        <div className="absolute top-16 right-4 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-xl z-50 py-1">
                             <button
                                 onClick={() => {
                                     setIsInviteModalOpen(true);
                                     setIsHeaderMenuOpen(false);
                                 }}
-                                className="w-full px-4 py-2 text-left text-sm text-slate-200 hover:bg-slate-700 flex items-center"
+                                className="w-full px-4 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center"
                             >
                                 <UserPlus size={14} className="mr-2" />
                                 Invite People
@@ -255,7 +257,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                             {isAdmin && (
                                 <button
                                     onClick={() => setIsCreating(!isCreating)}
-                                    className="hover:text-violet-400 transition-colors p-1 rounded hover:bg-slate-800"
+                                    className="hover:text-violet-500 dark:hover:text-violet-400 transition-colors p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
                                 >
                                     <Plus size={14} />
                                 </button>
@@ -264,14 +266,14 @@ const Sidebar = ({ isOpen, onClose }) => {
 
                         {/* Create Modal */}
                         {isCreating && (
-                            <div className="px-4 mb-4 bg-slate-800/50 p-3 rounded-lg border border-slate-700 mx-2">
+                            <div className="px-4 mb-4 bg-theme-surface-light p-3 rounded-lg border border-theme mx-2">
                                 <form onSubmit={handleCreateChannel} className="space-y-3">
                                     <input
                                         type="text"
                                         value={newChannelName}
                                         onChange={(e) => setNewChannelName(e.target.value)}
                                         placeholder="Channel name"
-                                        className="w-full bg-slate-900 text-slate-200 text-sm rounded-md px-3 py-2 outline-none border border-slate-700 focus:border-violet-500 transition-all"
+                                        className="w-full bg-theme-surface text-theme text-sm rounded-md px-3 py-2 outline-none border border-theme focus:border-violet-500 transition-all"
                                     />
 
                                     {/* Private / Public */}
@@ -279,7 +281,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                         type="button"
                                         onClick={() => setIsPrivate(!isPrivate)}
                                         className={`flex items-center text-xs px-2 py-1 rounded transition-colors 
-                                            ${isPrivate ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-400'}`}
+                                            ${isPrivate ? 'bg-theme-background text-white' : 'bg-slate-700 text-slate-400'}`}
                                     >
                                         {isPrivate ? <Lock size={12} className="mr-1" /> : <Hash size={12} className="mr-1" />}
                                         {isPrivate ? 'Private' : 'Public'}
@@ -287,7 +289,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
                                     {/* Member list */}
                                     {isPrivate && (
-                                        <div className="max-h-32 overflow-y-auto space-y-1 border border-slate-700 rounded p-1 bg-slate-900">
+                                        <div className="max-h-32 overflow-y-auto space-y-1 border border-theme rounded p-1 bg-theme-surface">
                                             {groupMembers.map(user => {
                                                 if (!user || !user._id || user._id === currentUser.id) return null;
                                                 return (
@@ -296,8 +298,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                                                         onClick={() => toggleMember(user._id)}
                                                         className={`flex items-center px-2 py-1 rounded cursor-pointer text-xs 
                                                             ${selectedMembers.includes(user._id)
-                                                                ? 'bg-violet-900/50 text-violet-200'
-                                                                : 'hover:bg-slate-800 text-slate-300'
+                                                                ? 'bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-200'
+                                                                : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300'
                                                             }`}
                                                     >
                                                         <div className={`w-3 h-3 rounded-full mr-2 border 
@@ -318,7 +320,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                         <button type="button" onClick={() => setIsCreating(false)} className="text-xs text-slate-400 hover:text-white">
                                             Cancel
                                         </button>
-                                        <button type="submit" className="text-xs bg-violet-600 text-white px-3 py-1 rounded">
+                                        <button type="submit" className="text-xs bg-theme-background text-white px-3 py-1 rounded">
                                             Create
                                         </button>
                                     </div>
@@ -349,15 +351,15 @@ const Sidebar = ({ isOpen, onClose }) => {
                                             className={`w-full flex items-center justify-between px-3 py-2 rounded-md 
                                                 text-sm font-medium transition-all duration-200 
                                                 ${currentChannel?._id === channel._id
-                                                    ? 'bg-violet-600 text-white shadow-md shadow-violet-500/10'
-                                                    : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'
+                                                    ? 'bg-theme-background text-white shadow-md shadow-theme-background/10'
+                                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100'
                                                 }`}
                                         >
                                             <div className="flex items-center truncate">
                                                 {isPrivateChannel ? (
-                                                    <Lock size={14} className="mr-3 text-slate-500 group-hover:text-slate-400" />
+                                                    <Lock size={14} className="mr-3 text-theme-surface-light group-hover:text-slate-400" />
                                                 ) : (
-                                                    <Hash size={18} className="mr-3 text-slate-500 group-hover:text-slate-400" />
+                                                    <Hash size={18} className="mr-3 text-theme-surface-light group-hover:text-slate-400" />
                                                 )}
                                                 <span>{channel.name}</span>
                                             </div>
@@ -399,13 +401,13 @@ const Sidebar = ({ isOpen, onClose }) => {
             {contextMenu.isOpen && (
                 <div
                     ref={contextMenuRef}
-                    className="fixed bg-slate-800 border border-slate-700 rounded-lg shadow-2xl py-2 z-50 min-w-[180px]"
+                    className="fixed bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl py-2 z-50 min-w-[180px]"
                     style={{ top: `${contextMenu.y}px`, left: `${contextMenu.x}px` }}
                 >
                     {isAdmin && (
                         <button
                             onClick={handleEditChannel}
-                            className="w-full px-4 py-2 text-left text-sm text-slate-200 hover:bg-slate-700 flex items-center"
+                            className="w-full px-4 py-2 text-left text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center"
                         >
                             <Settings size={14} className="mr-2" />
                             Edit Channel
@@ -416,7 +418,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     {isAdmin && (
                         <button
                             onClick={handleDeleteChannel}
-                            className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-slate-700 flex items-center"
+                            className="w-full px-4 py-2 text-left text-sm text-red-500 dark:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center"
                         >
                             <X size={14} className="mr-2" />
                             Delete Channel
@@ -437,7 +439,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                     type="text"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
-                                    className="w-full bg-slate-900 text-slate-200 rounded-lg px-3 py-2 outline-none border border-slate-700 focus:border-violet-500 transition-all"
+                                    className="w-full bg-theme-surface text-theme rounded-lg px-3 py-2 outline-none border border-theme focus:border-violet-500 transition-all"
                                 />
                             </div>
                             <div>
@@ -445,7 +447,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                 <textarea
                                     value={editDescription}
                                     onChange={(e) => setEditDescription(e.target.value)}
-                                    className="w-full bg-slate-900 text-slate-200 rounded-lg px-3 py-2 outline-none border border-slate-700 focus:border-violet-500 transition-all resize-none"
+                                    className="w-full bg-theme-surface text-theme rounded-lg px-3 py-2 outline-none border border-theme focus:border-violet-500 transition-all resize-none"
                                     rows="3"
                                 />
                             </div>
@@ -463,7 +465,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                         <select
                                             value={userToAdd}
                                             onChange={(e) => setUserToAdd(e.target.value)}
-                                            className="flex-1 bg-slate-900 text-slate-200 text-sm rounded-lg px-3 py-2 outline-none border border-slate-700"
+                                            className="flex-1 bg-theme-surface text-theme text-sm rounded-lg px-3 py-2 outline-none border border-theme"
                                         >
                                             <option value="">Select user to add...</option>
                                             {groupMembers
@@ -484,14 +486,14 @@ const Sidebar = ({ isOpen, onClose }) => {
                                                 }));
                                                 setUserToAdd('');
                                             }}
-                                            className="bg-violet-600 disabled:bg-slate-700 disabled:text-slate-500 text-white px-3 py-2 rounded-lg text-sm"
+                                            className="bg-theme-primary disabled:bg-slate-700 disabled:text-slate-500 text-white px-3 py-2 rounded-lg text-sm"
                                         >
                                             Add
                                         </button>
                                     </div>
 
                                     {/* Member List */}
-                                    <div className="space-y-1 max-h-40 overflow-y-auto bg-slate-900/50 rounded-lg p-2">
+                                    <div className="space-y-1 max-h-40 overflow-y-auto bg-theme-surface-light rounded-lg p-2">
                                         {channelToEdit.members?.map(member => {
                                             const memberId = member._id || member; // Populate vs ID
                                             const memberName = member.username || groupMembers.find(u => u._id === memberId)?.username || 'Unknown User';
@@ -539,7 +541,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                             </button>
                             <button
                                 onClick={handleSaveEdit}
-                                className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-500 transition-colors"
+                                className="px-4 py-2 bg-theme-primary text-white rounded-lg hover:bg-theme-primary-hover transition-colors"
                             >
                                 Save
                             </button>
@@ -606,16 +608,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                 document.body
             )}
 
-            {/* Footer */}
-            <div className="p-4 border-t border-slate-800 bg-slate-900/50">
-                <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center justify-center px-4 py-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-md text-sm"
-                >
-                    <LogOut size={16} className="mr-2" />
-                    Sign Out
-                </button>
-            </div>
 
         </div>
     );

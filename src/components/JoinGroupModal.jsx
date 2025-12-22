@@ -23,28 +23,28 @@ const JoinGroupModal = ({ isOpen, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-            <div className="bg-slate-800 rounded-lg shadow-xl w-full max-w-md p-6 relative animate-in fade-in zoom-in duration-200">
+            <div className="bg-theme-surface rounded-lg shadow-xl w-full max-w-md p-6 relative animate-in fade-in zoom-in duration-200 border border-theme">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-400 hover:text-white"
+                    className="absolute top-4 right-4 text-theme-secondary hover:text-theme"
                 >
                     <X size={20} />
                 </button>
 
-                <h2 className="text-2xl font-bold text-center text-white mb-2">Join a Server</h2>
-                <p className="text-center text-slate-400 mb-6 text-sm">
+                <h2 className="text-2xl font-bold text-center text-theme mb-2">Join a Server</h2>
+                <p className="text-center text-theme-secondary mb-6 text-sm">
                     Enter an invite code to join an existing server.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-xs font-bold text-slate-300 uppercase mb-1">Invite Code</label>
+                        <label className="block text-xs font-bold text-theme-secondary uppercase mb-1">Invite Code</label>
                         <input
                             type="text"
                             required
                             value={inviteCode}
                             onChange={(e) => setInviteCode(e.target.value)}
-                            className="w-full bg-slate-950 text-white rounded p-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                            className="w-full bg-theme-surface-light text-theme rounded p-2 border border-theme focus:outline-none focus:ring-2 focus:ring-theme-primary"
                             placeholder="e.g. 5f4d3e..."
                         />
                     </div>
@@ -55,13 +55,13 @@ const JoinGroupModal = ({ isOpen, onClose }) => {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-slate-300 hover:underline"
+                            className="px-4 py-2 text-theme-secondary hover:underline"
                         >
                             Back
                         </button>
                         <button
                             type="submit"
-                            className="px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded font-medium transition-colors"
+                            className="px-6 py-2 bg-theme-primary hover:bg-theme-primary-hover text-white rounded font-medium transition-colors"
                         >
                             Join Server
                         </button>

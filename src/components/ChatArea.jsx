@@ -3,6 +3,7 @@ import api from '../api/api';
 import { useChat } from '../context/ChatContext';
 import { Send, Hash, MoreVertical, Phone, Video, ArrowUp, Edit2, Trash2, Search, X, Smile } from 'lucide-react';
 import MessageStatusIndicator from './MessageStatusIndicator';
+import Logo from '../assets/Logo';
 import EmojiPicker from 'emoji-picker-react';
 
 import VideoCall from './VideoCall';
@@ -266,9 +267,9 @@ const ChatArea = ({ onOpenSidebar }) => {
                     </div>
                 </button>
 
-                <div className="bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800 text-center max-w-md w-full mx-4">
-                    <div className="bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Hash size={32} className="text-violet-500" />
+                <div className="bg-theme-surface p-8 rounded-2xl shadow-2xl border border-theme text-center max-w-md w-full mx-4">
+                    <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center text-theme-primary">
+                        <Logo className="w-full h-full" />
                     </div>
                     <h2 className="text-2xl font-bold text-white mb-2">Welcome to Chat App</h2>
                     <p className="text-slate-400 mb-6">Select a channel from the sidebar to start collaborating with your team.</p>
@@ -278,12 +279,12 @@ const ChatArea = ({ onOpenSidebar }) => {
     }
 
     return (
-        <div className="flex-1 flex flex-col h-full bg-slate-950 relative w-full">
+        <div className="flex-1 flex flex-col h-full bg-theme-background relative w-full">
             <VideoCall />
 
             {showCallModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowCallModal(false)}>
-                    <div className="bg-slate-900 p-6 rounded-xl shadow-2xl border border-slate-800 w-full max-w-md m-4" onClick={e => e.stopPropagation()}>
+                    <div className="bg-theme-surface p-6 rounded-xl shadow-2xl border border-theme w-full max-w-md m-4" onClick={e => e.stopPropagation()}>
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-white font-bold text-lg">Start a Call</h3>
                             <button onClick={() => setShowCallModal(false)} className="text-slate-400 hover:text-white"><X size={20} /></button>
@@ -299,7 +300,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                                             callUser(onlineUser._id, callType);
                                             setShowCallModal(false);
                                         }}
-                                        className="w-full flex items-center p-3 hover:bg-slate-800 rounded-lg transition-colors group"
+                                        className="w-full flex items-center p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors group"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-sm font-bold text-white mr-3">
                                             {onlineUser.username?.substring(0, 2).toUpperCase()}
@@ -320,12 +321,12 @@ const ChatArea = ({ onOpenSidebar }) => {
             )}
 
             {/* Header */}
-            <div className="h-16 px-4 md:px-6 flex items-center justify-between border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
+            <div className="h-16 px-4 md:px-6 flex items-center justify-between border-b border-theme bg-theme-surface/80 backdrop-blur-md sticky top-0 z-10">
                 <div className="flex items-center">
                     {/* Hamburger Menu - Visible on Mobile/Tablet */}
                     <button
                         onClick={onOpenSidebar}
-                        className="mr-3 text-slate-400 hover:text-white lg:hidden focus:outline-none"
+                        className="mr-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white lg:hidden focus:outline-none"
                     >
                         <div className="space-y-1.5">
                             <span className="block w-5 h-0.5 bg-current"></span>
@@ -336,25 +337,25 @@ const ChatArea = ({ onOpenSidebar }) => {
 
                     <Hash size={24} className="text-violet-500 mr-2 md:mr-3 shrink-0" />
                     <div className="min-w-0">
-                        <h2 className="font-bold text-white text-base md:text-lg leading-tight truncate">{currentChannel.name}</h2>
+                        <h2 className="font-bold text-slate-800 dark:text-white text-base md:text-lg leading-tight truncate">{currentChannel.name}</h2>
                         {currentChannel.description && (
                             <p className="text-xs text-slate-400 truncate hidden sm:block">{currentChannel.description}</p>
                         )}
                     </div>
                 </div>
-                <div className="flex items-center space-x-2 md:space-x-4 text-slate-400">
-                    <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`hover:text-white transition-colors ${isSearchOpen ? 'text-violet-500' : ''}`}><Search size={20} /></button>
-                    <button onClick={() => { setShowCallModal(true); setCallType('audio'); }} className="hover:text-white transition-colors hidden sm:block"><Phone size={20} /></button>
-                    <button onClick={() => { setShowCallModal(true); setCallType('video'); }} className="hover:text-white transition-colors hidden sm:block"><Video size={20} /></button>
+                <div className="flex items-center space-x-2 md:space-x-4 text-slate-500 dark:text-slate-400">
+                    <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`hover:text-slate-900 dark:hover:text-white transition-colors ${isSearchOpen ? 'text-violet-500' : ''}`}><Search size={20} /></button>
+                    <button onClick={() => { setShowCallModal(true); setCallType('audio'); }} className="hover:text-slate-900 dark:hover:text-white transition-colors hidden sm:block"><Phone size={20} /></button>
+                    <button onClick={() => { setShowCallModal(true); setCallType('video'); }} className="hover:text-slate-900 dark:hover:text-white transition-colors hidden sm:block"><Video size={20} /></button>
                     <div className="relative" ref={menuRef}>
-                        <button onClick={() => setShowMenu(!showMenu)} className="hover:text-white transition-colors">
+                        <button onClick={() => setShowMenu(!showMenu)} className="hover:text-slate-900 dark:hover:text-white transition-colors">
                             <MoreVertical size={20} />
                         </button>
                         {showMenu && (
-                            <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-2xl py-2 z-50">
+                            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl py-2 z-50">
                                 <button
                                     onClick={handleLeaveChannel}
-                                    className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-slate-700 flex items-center"
+                                    className="w-full px-4 py-2 text-left text-sm text-red-500 dark:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center"
                                 >
                                     <X size={14} className="mr-2" />
                                     Leave Channel
@@ -367,7 +368,7 @@ const ChatArea = ({ onOpenSidebar }) => {
 
             {/* Search Bar */}
             {isSearchOpen && (
-                <div className="px-6 py-3 bg-slate-900 border-b border-slate-800 flex items-center">
+                <div className="px-6 py-3 bg-theme-background border-b border-theme flex items-center">
                     <div className="flex-1 flex flex-col relative">
                         <div className="flex items-center">
                             <input
@@ -375,7 +376,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search messages..."
-                                className="w-full bg-slate-800 text-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm outline-none focus:ring-1 focus:ring-violet-500 border border-slate-700"
+                                className="w-full bg-theme-surface dark:bg-theme-background text-slate-800 dark:text-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm outline-none focus:ring-1 focus:ring-theme-background dark:border-theme-background"
                             />
                             <Search size={16} className="absolute left-3 text-slate-500" />
                             {searchQuery && (
@@ -397,16 +398,16 @@ const ChatArea = ({ onOpenSidebar }) => {
 
             {/* Search Results Overlay */}
             {isSearchOpen && searchResults.length > 0 && (
-                <div className="absolute top-32 left-0 right-0 bottom-0 bg-slate-950/95 z-20 p-6 overflow-y-auto">
+                <div className="absolute top-32 left-0 right-0 bottom-0 bg-theme-background/95 z-20 p-6 overflow-y-auto">
                     <div className="max-w-3xl mx-auto space-y-4">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-white font-bold">Search Results ({searchResults.length})</h3>
-                            <button onClick={() => setSearchResults([])} className="text-slate-400 hover:text-white"><X size={20} /></button>
+                            <h3 className="text-slate-800 dark:text-white font-bold">Search Results ({searchResults.length})</h3>
+                            <button onClick={() => setSearchResults([])} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"><X size={20} /></button>
                         </div>
                         {searchResults.map(msg => {
                             if (!msg || !msg.sender) return null;
                             return (
-                                <div key={msg._id} className="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                                <div key={msg._id} className="bg-theme-surface p-4 rounded-xl border border-theme">
                                     <div className="flex items-baseline justify-between mb-1">
                                         <span className="text-sm font-bold text-violet-400">{msg.sender.username}</span>
                                         <span className="text-xs text-slate-500">{new Date(msg.timestamp).toLocaleString()}</span>
@@ -428,7 +429,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                     <div key={group.dateKey}>
                         {/* Day Separator */}
                         <div className="flex items-center justify-center my-4">
-                            <div className="bg-slate-800/60 px-3 py-1 rounded-full text-xs text-slate-400 font-medium">
+                            <div className="bg-slate-200/60 dark:bg-slate-800/60 px-3 py-1 rounded-full text-xs text-slate-500 dark:text-slate-400 font-medium">
                                 {group.dateLabel}
                             </div>
                         </div>
@@ -465,19 +466,19 @@ const ChatArea = ({ onOpenSidebar }) => {
                                                 />
                                                 <div className="flex justify-end space-x-2">
                                                     <button onClick={() => setEditingMessageId(null)} className="text-xs text-slate-400 hover:text-white">Cancel</button>
-                                                    <button onClick={handleSaveEdit} className="text-xs bg-violet-600 text-white px-3 py-1 rounded-md hover:bg-violet-500">Save</button>
+                                                    <button onClick={handleSaveEdit} className="text-xs bg-theme-primary text-white px-3 py-1 rounded-md hover:bg-theme-primary-hover">Save</button>
                                                 </div>
                                             </div>
                                         ) : (
                                             <>
                                                 <div className={`px-4 py-3 rounded-2xl text-[15px] shadow-lg leading-relaxed relative group-hover/message:shadow-xl transition-all ${isMe
-                                                    ? 'bg-gradient-to-br from-violet-600 to-violet-700 text-white rounded-br-md'
-                                                    : 'bg-slate-800/90 text-slate-100 rounded-bl-md border border-slate-700/50'
+                                                    ? 'bg-theme-primary text-white rounded-br-md shadow-theme-primary/20'
+                                                    : 'bg-theme-surface text-theme rounded-bl-md border border-theme shadow-sm'
                                                     }`}>
                                                     {msg.content}
                                                     {/* Message Actions */}
                                                     {isMe && (
-                                                        <div className="absolute -top-9 right-0 bg-slate-900/95 backdrop-blur-sm border border-slate-700 rounded-lg shadow-2xl p-1.5 flex space-x-1 opacity-0 group-hover/message:opacity-100 transition-all z-10">
+                                                        <div className="absolute -top-9 right-0 bg-theme-surface/95 backdrop-blur-sm border border-theme rounded-lg shadow-2xl p-1.5 flex space-x-1 opacity-0 group-hover/message:opacity-100 transition-all z-10">
                                                             <button onClick={() => handleEdit(msg)} className="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-violet-400 transition-colors">
                                                                 <Edit2 size={14} />
                                                             </button>
@@ -523,7 +524,7 @@ const ChatArea = ({ onOpenSidebar }) => {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-slate-900 border-t border-slate-800">
+            <div className="p-4 bg-theme-background border-t border-theme">
                 <form onSubmit={handleSend} className="relative max-w-4xl mx-auto">
                     {/* Emoji Picker */}
                     {showEmojiPicker && (
@@ -558,7 +559,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                         value={newMessage}
                         onChange={handleTyping}
                         placeholder={`Message #${currentChannel.name}`}
-                        className="w-full bg-slate-800 text-slate-100 rounded-xl pl-12 pr-12 py-3.5 outline-none resize-none h-14 focus:ring-2 focus:ring-violet-500/50"
+                        className="w-full bg-theme-surface-light text-theme rounded-xl pl-12 pr-12 py-3.5 outline-none resize-none h-14 focus:ring-2 focus:ring-violet-500/50"
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
@@ -566,7 +567,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                             }
                         }}
                     />
-                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-violet-600 hover:bg-violet-700 text-white p-2.5 rounded-full transition-colors">
+                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-theme-background text-white p-2.5 rounded-full transition-colors">
                         <Send size={18} />
                     </button>
                 </form>

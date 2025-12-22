@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { useChat } from '../context/ChatContext';
-import { Plus, Compass } from 'lucide-react';
+import { Plus, Compass, Settings as SettingsIcon } from 'lucide-react';
+import Settings from './Settings';
 
 const GroupSidebar = ({ onCreateGroup, onJoinGroup }) => {
     const { groups, currentGroup, selectGroup } = useChat();
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     return (
-        <div className="w-16 md:w-20 bg-slate-950 flex flex-col items-center py-4 space-y-4 border-r border-slate-900 overflow-y-auto">
+        <div className="w-16 md:w-20 bg-theme-surface flex flex-col items-center py-4 space-y-4 border-r border-theme overflow-y-auto">
 
             {/* Home / Direct Messages (Optional, can be a special 'group') */}
-            {/* <div 
+            {/* <div
                 onClick={() => selectGroup(null)}
                 className={`w-12 h-12 rounded-[24px] hover:rounded-[16px] transition-all duration-200 
-                flex items-center justify-center cursor-pointer bg-slate-800 hover:bg-violet-600 text-white
-                ${!currentGroup ? 'rounded-[16px] bg-violet-600' : ''}`}
+                flex items-center justify-center cursor-pointer bg-slate-800 hover:bg-theme-primary text-white
+                ${!currentGroup ? 'rounded-[16px] bg-theme-primary' : ''}`}
             >
                 <MessageSquare size={24} />
-            </div>
-            <div className="w-8 h-[2px] bg-slate-800 rounded-full" /> */}
+            </div> */}
+            {/* <div className="w-8 h-[2px] bg-slate-800 rounded-full" /> */}
 
             {/* Groups */}
             {groups.map(group => (
@@ -33,8 +35,8 @@ const GroupSidebar = ({ onCreateGroup, onJoinGroup }) => {
                     <div
                         onClick={() => selectGroup(group)}
                         className={`w-12 h-12 rounded-[24px] group-hover:rounded-[16px] transition-all duration-200 
-                        flex items-center justify-center cursor-pointer bg-slate-800 hover:bg-violet-600 text-white overflow-hidden
-                        ${currentGroup?._id === group._id ? 'rounded-[16px] bg-violet-600' : ''}`}
+                        flex items-center justify-center cursor-pointer bg-slate-800 hover:bg-theme-primary text-white overflow-hidden
+                        ${currentGroup?._id === group._id ? 'rounded-[16px] bg-theme-primary' : ''}`}
                         title={group.name}
                     >
                         {group.icon ? (
@@ -66,8 +68,25 @@ const GroupSidebar = ({ onCreateGroup, onJoinGroup }) => {
                 <Compass size={24} />
             </div>
 
+            {/* Spacer */}
+            <div className="flex-1"></div>
+
+            {/* Settings Button */}
+            <div
+                onClick={() => setIsSettingsOpen(true)}
+                className="w-12 h-12 rounded-[24px] hover:rounded-[16px] transition-all duration-200 
+                flex items-center justify-center cursor-pointer bg-slate-800 hover:bg-theme-primary text-slate-400 hover:text-white"
+                title="Settings"
+            >
+                <SettingsIcon size={24} />
+            </div>
+
+            {/* Settings Modal */}
+            <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+
         </div>
     );
 };
 
 export default GroupSidebar;
+

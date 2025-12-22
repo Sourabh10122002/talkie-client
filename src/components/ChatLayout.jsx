@@ -19,7 +19,7 @@ const ChatLayout = () => {
 
     return (
 
-        <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden">
+        <div className="flex h-screen bg-theme-background text-theme overflow-hidden">
 
             {/* Group Sidebar (Leftmost) */}
             <GroupSidebar
@@ -45,22 +45,22 @@ const ChatLayout = () => {
                 />
 
                 {/* Chat Area */}
-                <div className="flex-1 flex flex-col min-w-0 bg-slate-900">
+                <div className="flex-1 flex flex-col min-w-0 bg-theme-surface">
                     {currentChannel ? (
                         <ChatArea onOpenSidebar={toggleSidebar} />
                     ) : (
-                        <div className="flex-1 flex items-center justify-center text-slate-500 bg-slate-900 relative">
+                        <div className="flex-1 flex items-center justify-center text-theme-secondary bg-theme-surface relative">
                             {/* Mobile Menu Button for Empty State */}
                             <div className="absolute top-4 left-4 lg:hidden">
                                 <button
                                     onClick={toggleSidebar}
-                                    className="p-2 bg-slate-800 rounded-md text-slate-300 hover:text-white"
+                                    className="p-2 bg-slate-100 dark:bg-slate-800 rounded-md text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
                                 >
                                     <Menu size={20} />
                                 </button>
                             </div>
                             <div className="text-center">
-                                <p className="text-xl font-bold mb-2">Welcome to Chat App</p>
+                                <p className="text-xl font-bold mb-2 text-slate-800 dark:text-slate-100">Welcome to Chat App</p>
                                 <p>Select a server and a channel to start chatting</p>
                             </div>
                         </div>
