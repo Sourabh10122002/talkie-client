@@ -30,15 +30,13 @@ const ChatLayout = () => {
             {/* Main Content Area Wrapper */}
             <div className="flex-1 flex overflow-hidden relative">
 
-                {/* Mobile Menu Button */}
-                <div className="absolute top-4 left-4 z-50 lg:hidden">
-                    <button
-                        onClick={toggleSidebar}
-                        className="p-2 bg-slate-800 rounded-md text-slate-300 hover:text-white"
-                    >
-                        <Menu size={20} />
-                    </button>
-                </div>
+                {/* Mobile Sidebar Overlay */}
+                {isSidebarOpen && (
+                    <div
+                        className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
 
                 {/* Sidebar (Channels) */}
                 <Sidebar
@@ -49,9 +47,18 @@ const ChatLayout = () => {
                 {/* Chat Area */}
                 <div className="flex-1 flex flex-col min-w-0 bg-slate-900">
                     {currentChannel ? (
-                        <ChatArea />
+                        <ChatArea onOpenSidebar={toggleSidebar} />
                     ) : (
-                        <div className="flex-1 flex items-center justify-center text-slate-500 bg-slate-900">
+                        <div className="flex-1 flex items-center justify-center text-slate-500 bg-slate-900 relative">
+                            {/* Mobile Menu Button for Empty State */}
+                            <div className="absolute top-4 left-4 lg:hidden">
+                                <button
+                                    onClick={toggleSidebar}
+                                    className="p-2 bg-slate-800 rounded-md text-slate-300 hover:text-white"
+                                >
+                                    <Menu size={20} />
+                                </button>
+                            </div>
                             <div className="text-center">
                                 <p className="text-xl font-bold mb-2">Welcome to Chat App</p>
                                 <p>Select a server and a channel to start chatting</p>
