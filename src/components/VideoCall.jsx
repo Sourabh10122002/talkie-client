@@ -42,6 +42,42 @@ const VideoCall = () => {
         }
     };
 
+    // Draggable Self-View Logic
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
+    const dragStart = React.useRef({ x: 0, y: 0 });
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        dragStart.current = {
+            x: e.clientX - position.x,
+            y: e.clientY - position.y
+        };
+    };
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            if (!isDragging) return;
+            const newX = e.clientX - dragStart.current.x;
+            const newY = e.clientY - dragStart.current.y;
+            setPosition({ x: newX, y: newY });
+        };
+
+        const handleMouseUp = () => {
+            setIsDragging(false);
+        };
+
+        if (isDragging) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging]);
+
     if (!isCallActive && !call.isReceivingCall) return null;
 
     return (
@@ -136,7 +172,14 @@ const VideoCall = () => {
 
                     {/* Picture-in-Picture (My Video) - Shows during calling AND active call */}
                     {callType === 'video' && stream && (
-                        <div className="absolute bottom-6 right-6 w-48 h-36 rounded-2xl overflow-hidden bg-slate-950 border-2 border-violet-500/50 shadow-2xl">
+                        <div
+                            onMouseDown={handleMouseDown}
+                            style={{
+                                transform: `translate(${position.x}px, ${position.y}px)`,
+                                cursor: isDragging ? 'grabbing' : 'grab'
+                            }}
+                            className="absolute bottom-6 right-6 w-48 h-36 rounded-2xl overflow-hidden bg-slate-950 border-2 border-violet-500/50 shadow-2xl hover:shadow-violet-500/20 hover:border-violet-500 transition-shadow z-20"
+                        >
                             {stream ? (
                                 <video
                                     playsInline

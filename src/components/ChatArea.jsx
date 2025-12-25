@@ -345,8 +345,8 @@ const ChatArea = ({ onOpenSidebar }) => {
                 </div>
                 <div className="flex items-center space-x-2 md:space-x-4 text-theme-secondary">
                     <button onClick={() => setIsSearchOpen(!isSearchOpen)} className={`hover:text-theme-text transition-colors ${isSearchOpen ? 'text-violet-500' : ''}`}><Search size={20} /></button>
-                    <button onClick={() => { setShowCallModal(true); setCallType('audio'); }} className="hover:text-theme-text transition-colors hidden sm:block"><Phone size={20} /></button>
-                    <button onClick={() => { setShowCallModal(true); setCallType('video'); }} className="hover:text-theme-text transition-colors hidden sm:block"><Video size={20} /></button>
+                    <button onClick={() => { setShowCallModal(true); setCallType('audio'); }} className="hover:text-theme-text transition-colors"><Phone size={20} /></button>
+                    <button onClick={() => { setShowCallModal(true); setCallType('video'); }} className="hover:text-theme-text transition-colors"><Video size={20} /></button>
                     <div className="relative" ref={menuRef}>
                         <button onClick={() => setShowMenu(!showMenu)} className="hover:text-theme-text transition-colors">
                             <MoreVertical size={20} />
