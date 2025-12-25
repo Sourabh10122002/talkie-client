@@ -19,7 +19,7 @@ const ChatLayout = () => {
 
     return (
 
-        <div className="flex h-screen bg-theme-background text-theme overflow-hidden">
+        <div className="flex h-[100dvh] bg-theme-background text-theme overflow-hidden">
 
             {/* Group Sidebar (Leftmost) */}
             <GroupSidebar
