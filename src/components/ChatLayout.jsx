@@ -60,8 +60,8 @@ const ChatLayout = () => {
                                 </button>
                             </div>
                             <div className="text-center">
-                                <p className="text-xl font-bold mb-2 text-slate-800 dark:text-slate-100">Welcome to Chat App</p>
-                                <p>Select a server and a channel to start chatting</p>
+                                <p className="text-xl font-bold mb-2 text-theme-text">Welcome to Chat App</p>
+                                <p className="text-theme-secondary">Select a server and a channel to start chatting</p>
                             </div>
                         </div>
                     )}

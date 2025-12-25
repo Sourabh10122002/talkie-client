@@ -271,8 +271,8 @@ const ChatArea = ({ onOpenSidebar }) => {
                     <div className="w-24 h-24 mx-auto mb-6 flex items-center justify-center text-theme-primary">
                         <Logo className="w-full h-full" />
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-2">Welcome to Chat App</h2>
-                    <p className="text-slate-400 mb-6">Select a channel from the sidebar to start collaborating with your team.</p>
+                    <h2 className="text-2xl font-bold text-theme-text mb-2">Welcome to Chat App</h2>
+                    <p className="text-theme-secondary mb-6">Select a channel from the sidebar to start collaborating with your team.</p>
                 </div>
             </div>
         );
@@ -335,7 +335,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                         </div>
                     </button>
 
-                    <Hash size={24} className="text-violet-500 mr-2 md:mr-3 shrink-0" />
+                    <Hash size={24} className="text-theme-primary mr-2 md:mr-3 shrink-0" />
                     <div className="min-w-0">
                         <h2 className="font-bold text-theme-text text-base md:text-lg leading-tight truncate">{currentChannel.name}</h2>
                         {currentChannel.description && (
@@ -567,7 +567,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                             }
                         }}
                     />
-                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-theme-background text-white p-2.5 rounded-full transition-colors">
+                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-theme-primary text-white p-2.5 rounded-full transition-colors">
                         <Send size={18} />
                     </button>
                 </form>

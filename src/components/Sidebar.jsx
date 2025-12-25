@@ -351,7 +351,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                             className={`w-full flex items-center justify-between px-3 py-2 rounded-md 
                                                 text-sm font-medium transition-all duration-200 
                                                 ${currentChannel?._id === channel._id
-                                                    ? 'bg-theme-background text-white shadow-md shadow-theme-background/10'
+                                                    ? 'bg-theme-primary text-white shadow-md shadow-theme-primary/20'
                                                     : 'text-theme-secondary hover:bg-theme-surface-light hover:text-theme-text'
                                                 }`}
                                         >
