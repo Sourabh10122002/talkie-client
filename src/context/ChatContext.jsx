@@ -25,6 +25,19 @@ export const ChatProvider = ({ children }) => {
 
     const [typingUsers, setTypingUsers] = useState({});
 
+    // WebRTC State
+    const [call, setCall] = useState({});
+    const [callAccepted, setCallAccepted] = useState(false);
+    const [callEnded, setCallEnded] = useState(false);
+    const [stream, setStream] = useState(null);
+    const [name, setName] = useState('');
+    const [isCallActive, setIsCallActive] = useState(false);
+    const [callType, setCallType] = useState('video');
+
+    const myVideo = useRef();
+    const userVideo = useRef();
+    const connectionRef = useRef();
+
     // Initialize Socket
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -453,18 +466,6 @@ export const ChatProvider = ({ children }) => {
         }
     };
 
-    // WebRTC State
-    const [call, setCall] = useState({});
-    const [callAccepted, setCallAccepted] = useState(false);
-    const [callEnded, setCallEnded] = useState(false);
-    const [stream, setStream] = useState(null);
-    const [name, setName] = useState('');
-    const [isCallActive, setIsCallActive] = useState(false);
-    const [callType, setCallType] = useState('video');
-
-    const myVideo = useRef();
-    const userVideo = useRef();
-    const connectionRef = useRef();
 
     // WebRTC Socket Listeners
     useEffect(() => {

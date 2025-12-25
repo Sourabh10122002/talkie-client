@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../api/api';
 import { useChat } from '../context/ChatContext';
-import { Send, Hash, MoreVertical, Phone, Video, ArrowUp, Edit2, Trash2, Search, X, Smile } from 'lucide-react';
+import { Send, Hash, MoreVertical, Phone, Video, ArrowUp, Edit2, Trash2, Search, X, Smile, Image as ImageIcon, Plus } from 'lucide-react';
 import MessageStatusIndicator from './MessageStatusIndicator';
 import Logo from '../assets/Logo';
 import EmojiPicker from 'emoji-picker-react';
+import GifPicker from './GifPicker';
 
 import VideoCall from './VideoCall';
 
@@ -21,15 +22,19 @@ const ChatArea = ({ onOpenSidebar }) => {
     const [showCallModal, setShowCallModal] = useState(false);
     const [callType, setCallType] = useState('video');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [showGifPicker, setShowGifPicker] = useState(false);
+    const [showAttachMenu, setShowAttachMenu] = useState(false);
     const messagesEndRef = useRef(null);
     const messagesContainerRef = useRef(null);
     const menuRef = useRef(null);
     const emojiPickerRef = useRef(null);
+    const gifPickerRef = useRef(null);
+    const attachMenuRef = useRef(null);
     const inputRef = useRef(null);
     const isAtBottomRef = useRef(true);
     const user = JSON.parse(localStorage.getItem('user'));
 
-    // Close menu and emoji picker when clicking outside
+    // Close menu and pickers when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -37,6 +42,12 @@ const ChatArea = ({ onOpenSidebar }) => {
             }
             if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
                 setShowEmojiPicker(false);
+            }
+            if (gifPickerRef.current && !gifPickerRef.current.contains(event.target)) {
+                setShowGifPicker(false);
+            }
+            if (attachMenuRef.current && !attachMenuRef.current.contains(event.target)) {
+                setShowAttachMenu(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -130,6 +141,16 @@ const ChatArea = ({ onOpenSidebar }) => {
             sendTyping(false);
             // Smooth scroll will happen automatically via useEffect
         }
+    };
+
+    const handleGifSelect = (gifUrl) => {
+        sendMessage(gifUrl);
+        setShowGifPicker(false);
+        setShowAttachMenu(false);
+    };
+
+    const isGifUrl = (content) => {
+        return /giphy\.com\/media|giphy\.com\/gifs|^(http(s?):)([/|.|\w|\s|-])*\.(?:gif)/.test(content);
     };
 
     const handleTyping = (e) => {
@@ -442,6 +463,7 @@ const ChatArea = ({ onOpenSidebar }) => {
                             const isEditing = editingMessageId === msg._id;
                             const nextMsg = group.messages[index + 1];
                             const showTimestamp = shouldShowTimestamp(msg, nextMsg, index);
+                            const isGif = isGifUrl(msg.content);
 
                             return (
                                 <div
@@ -471,13 +493,24 @@ const ChatArea = ({ onOpenSidebar }) => {
                                             </div>
                                         ) : (
                                             <>
-                                                <div className={`px-4 py-3 rounded-2xl text-[15px] shadow-lg leading-relaxed relative group-hover/message:shadow-xl transition-all ${isMe
+                                                <div className={`px-4 py-3 rounded-2xl overflow-hidden text-[15px] shadow-lg leading-relaxed relative group-hover/message:shadow-xl transition-all ${isMe
                                                     ? 'bg-theme-primary text-white rounded-br-md shadow-theme-primary/20'
                                                     : 'bg-theme-surface text-theme rounded-bl-md border border-theme shadow-sm'
-                                                    }`}>
-                                                    {msg.content}
+                                                    } ${isGif ? 'p-1 bg-transparent border-0 shadow-none' : ''}`}>
+
+                                                    {isGif ? (
+                                                        <img
+                                                            src={msg.content}
+                                                            alt="GIF"
+                                                            className="rounded-lg max-w-full max-h-[300px] object-cover"
+                                                            loading="lazy"
+                                                        />
+                                                    ) : (
+                                                        msg.content
+                                                    )}
+
                                                     {/* Message Actions */}
-                                                    {isMe && (
+                                                    {isMe && !isGif && (
                                                         <div className="absolute -top-9 right-0 bg-theme-surface/95 backdrop-blur-sm border border-theme rounded-lg shadow-2xl p-1.5 flex space-x-1 opacity-0 group-hover/message:opacity-100 transition-all z-10">
                                                             <button onClick={() => handleEdit(msg)} className="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-violet-400 transition-colors">
                                                                 <Edit2 size={14} />
@@ -524,13 +557,16 @@ const ChatArea = ({ onOpenSidebar }) => {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-theme-background border-t border-theme">
-                <form onSubmit={handleSend} className="relative max-w-4xl mx-auto">
-                    {/* Emoji Picker */}
+            {/* Input */}
+            <div className="p-4 bg-theme-background border-t border-theme sticky bottom-0 z-20">
+                <form onSubmit={handleSend} className="relative w-full max-w-4xl mx-auto flex items-end gap-1 bg-theme-surface-light dark:bg-slate-800/80 backdrop-blur-sm rounded-lg p-2 px-3 shadow-lg focus-within:ring-1 focus-within:ring-theme-primary/50 transition-all duration-200">
+
+                    {/* Pickers */}
                     {showEmojiPicker && (
                         <div
                             ref={emojiPickerRef}
-                            className="absolute bottom-20 left-0 z-50 shadow-2xl rounded-2xl overflow-hidden"
+                            className="absolute bottom-16 left-0 z-50 shadow-2xl rounded-2xl overflow-hidden"
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <EmojiPicker
                                 onEmojiClick={(emojiData) => {
@@ -545,21 +581,47 @@ const ChatArea = ({ onOpenSidebar }) => {
                         </div>
                     )}
 
-                    {/* Emoji Button */}
-                    <button
-                        type="button"
-                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-violet-400 transition-colors z-10"
-                    >
-                        <Smile size={20} />
-                    </button>
+                    {showGifPicker && (
+                        <div
+                            ref={gifPickerRef}
+                            className="absolute bottom-18 left-10 z-50 shadow-2xl rounded-xl overflow-hidden"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <GifPicker
+                                onGifSelect={handleGifSelect}
+                                onClose={() => setShowGifPicker(false)}
+                            />
+                        </div>
+                    )}
 
+                    {/* Left Actions */}
+                    <div className="flex items-center pb-1.5 gap-1">
+                        <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); setShowEmojiPicker(!showEmojiPicker); }}
+                            className="w-8 h-8 text-slate-400 hover:text-theme-primary transition-colors rounded-full hover:bg-theme-background/50 flex items-center justify-center"
+                            title="Emoji"
+                        >
+                            <Smile size={20} />
+                        </button>
+                        <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); setShowGifPicker(!showGifPicker); }}
+                            className="w-8 h-8 text-slate-400 hover:text-theme-primary transition-colors rounded-full hover:bg-theme-background/50 flex items-center justify-center"
+                            title="GIF"
+                        >
+                            <ImageIcon size={20} />
+                        </button>
+                    </div>
+
+                    {/* Input Field */}
                     <textarea
                         ref={inputRef}
                         value={newMessage}
                         onChange={handleTyping}
                         placeholder={`Message #${currentChannel.name}`}
-                        className="w-full bg-theme-surface-light text-theme rounded-xl pl-12 pr-12 py-3.5 outline-none resize-none h-14 focus:ring-2 focus:ring-violet-500/50"
+                        className="w-full bg-theme-surface-light text-theme py-3.5 outline-none resize-none h-12"
+                        style={{ lineHeight: '24px' }}
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
                                 e.preventDefault();
@@ -567,11 +629,20 @@ const ChatArea = ({ onOpenSidebar }) => {
                             }
                         }}
                     />
-                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-theme-primary text-white p-2.5 rounded-full transition-colors">
-                        <Send size={18} />
-                    </button>
-                </form>
 
+                    {/* Right Actions */}
+                    <div className="flex items-center pb-1">
+                        <button
+                            type="submit"
+                            disabled={!newMessage.trim()}
+                            className={`w-10 h-10 rounded-full transition-all duration-200 flex items-center justify-center shadow-md ${newMessage.trim()
+                                ? 'bg-theme-primary text-white hover:bg-theme-primary-hover hover:scale-105 active:scale-95'
+                                : 'bg-slate-700/50 text-slate-500 cursor-not-allowed'}`}
+                        >
+                            <Send size={18} className={newMessage.trim() ? 'ml-0.5' : ''} />
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     );

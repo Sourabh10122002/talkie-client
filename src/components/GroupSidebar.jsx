@@ -26,11 +26,11 @@ const GroupSidebar = ({ onCreateGroup, onJoinGroup }) => {
                 <div key={group._id} className="relative group flex items-center justify-center">
                     {/* Active Indicator */}
                     {currentGroup?._id === group._id && (
-                        <div className="absolute left-0 w-1 h-8 bg-white rounded-r-full" />
+                        <div className="absolute left-0 w-1 h-8 bg-[var(--color-text)] rounded-r-full" />
                     )}
 
                     {/* Hover Indicator */}
-                    <div className="absolute left-0 w-1 h-2 bg-white rounded-r-full scale-0 group-hover:scale-100 transition-all duration-200 origin-left opacity-50" />
+                    <div className="absolute left-0 w-1 h-2 bg-theme-background rounded-r-full scale-0 group-hover:scale-100 transition-all duration-200 origin-left opacity-50" />
 
                     <div
                         onClick={() => selectGroup(group)}
