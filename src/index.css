@@ -66,6 +66,10 @@ body {
   border-color: var(--color-border);
 }
 
+.border-theme-primary {
+  border-color: var(--color-primary);
+}
+
 .bg-theme-primary {
   background-color: var(--color-primary);
 }

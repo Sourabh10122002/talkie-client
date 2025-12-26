@@ -521,6 +521,9 @@ export const ChatProvider = ({ children }) => {
                 socket.emit('answer_call', { signal: data, to: call.from });
             });
 
+            // Set otherUserId for disconnect logic
+            setCall(prev => ({ ...prev, otherUserId: call.from }));
+
             peer.on('stream', (remoteStream) => {
                 console.log('✅ Remote stream received');
                 if (userVideo.current) {
@@ -577,6 +580,8 @@ export const ChatProvider = ({ children }) => {
 
             connectionRef.current = peer;
             setIsCallActive(true);
+            // Store other user ID to know who to disconnect from
+            setCall({ isReceivingCall: false, from: socket.id, otherUserId: id, callType: type });
         } catch (err) {
             console.error("Failed to get media:", err);
             alert("Cannot access camera/microphone. Please grant permissions and try again.");
@@ -591,7 +596,11 @@ export const ChatProvider = ({ children }) => {
         }
 
         if (emit && callAccepted && !callEnded) {
-            socket.emit('end_call', { to: call.from });
+            // Use otherUserId if available (for caller), otherwise call.from (for receiver)
+            const targetId = call.otherUserId || call.from;
+            if (targetId) {
+                socket.emit('end_call', { to: targetId });
+            }
         }
 
         if (callAccepted) {
@@ -607,7 +616,6 @@ export const ChatProvider = ({ children }) => {
             setStream(null);
         }
 
-        window.location.reload();
     };
 
     const value = {

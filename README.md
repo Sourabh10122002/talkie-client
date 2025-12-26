@@ -1,4 +1,4 @@
-# Chat App — Client (React + Vite)
+# Talkie | Real-time Chat App — Client (React + Vite)
 
 This is the **frontend** of the real-time chat application built using **React, Vite, Socket.io-client, TailwindCSS**, and **WebRTC** for audio/video calling.
 
